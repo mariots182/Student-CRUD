@@ -1,0 +1,135 @@
+<div class="container">
+  <div class="row">
+    <div class="col-lg-12">
+      <h1>CRUD</h1>
+    </div>
+
+    <div class="col-lg-4">
+      <div class="card" style="height: 100%">
+        <div class="card-body">
+          <h5 class="card-title">{{ formTitle }} usuario</h5>
+
+          <form #form="ngForm" [formGroup]="userForm">
+            <div class="form-group">
+              <label for="name">Nombre</label>
+              <input
+                type="text"
+                class="form-control"
+                id="name"
+                name="name"
+                formControlName="name"
+                minlength="1"
+                maxlength="50"
+              />
+              <div class="invalid-feedback">
+                El nombre es requerido y debe ser alfanumérico
+              </div>
+              <div class="valid-feedback">El nombre es válido</div>
+            </div>
+            <div class="form-group">
+              <label for="name">Apellido</label>
+              <input
+                type="text"
+                class="form-control"
+                id="name"
+                name="name"
+                formControlName="lastName"
+                minlength="1"
+                maxlength="50"
+              />
+              <div class="invalid-feedback">
+                El nombre es requerido y debe ser alfanumérico
+              </div>
+              <div class="valid-feedback">El nombre es válido</div>
+            </div>
+            <div class="form-group">
+              <label for="name">Edad</label>
+              <input
+                type="number"
+                class="form-control"
+                id="name"
+                name="name"
+                formControlName="age"
+                minlength="2"
+                maxlength="50"
+              />
+              <div class="invalid-feedback">
+                El nombre es requerido y debe ser alfanumérico
+              </div>
+              <div class="valid-feedback">El nombre es válido</div>
+            </div>
+
+            <div class="form-group" style="margin-top: 10px">
+              <button
+                [disabled]="!userForm.valid || buttonSubmitted"
+                class="btn btn-success"
+                (click)="actionForm()"
+                style="width: 100%; margin-top: 5px"
+              >
+                {{ formTitle }} Usuario
+              </button>
+              <button
+                *ngIf="editForm"
+                class="btn btn-danger"
+                (click)="cancelForm()"
+                style="width: 100%; margin-top: 5px"
+              >
+                Cancelar
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-lg-8">
+      <div class="card">
+        <div class="card-body">
+          <ngx-datatable
+            class="bootstrap"
+            [rows]="usersList"
+            [columnMode]="columnMode.force"
+            [headerHeight]="50"
+            [footerHeight]="50"
+            rowHeight="auto"
+            [limit]="10"
+            [messages]="messages"
+          >
+            <ngx-datatable-column
+              *ngFor="let column of columns; let i = index"
+              name="{{ column.name }}"
+              prop="{{ column.prop }}"
+            >
+            </ngx-datatable-column>
+
+            <ngx-datatable-column name="Acciones" prop="name">
+              <ng-template
+                let-row="row"
+                let-value="value"
+                let-rowIndex="rowIndex"
+                ngx-datatable-cell-template
+              >
+                <button
+                  type="button"
+                  class="btn btn-warning"
+                  style="margin-left: 4px"
+                  (click)="changeForm(usersList[rowIndex])"
+                >
+                  <i class="bi bi-pencil"></i>
+                </button>
+                <button
+                  type="button"
+                  class="btn btn-danger"
+                  style="margin-left: 4px"
+                  (click)="deleteUser(usersList[rowIndex])"
+                >
+                  <i class="bi bi-trash"></i>
+                </button>
+              </ng-template>
+            </ngx-datatable-column>
+          </ngx-datatable>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
